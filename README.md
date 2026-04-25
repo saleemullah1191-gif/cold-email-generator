@@ -1,1 +1,0 @@
-# cold-email-generator
