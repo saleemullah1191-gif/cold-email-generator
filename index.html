@@ -438,21 +438,9 @@
           messages: [
             {
               role: 'system',
-              content: `You write cold emails. Follow these rules with zero exceptions.
+              content: `Write 2 cold emails. Each email has a subject line and a body. The body is exactly 2 sentences. First sentence states the offer directly. Second sentence tells them what to do next. No greetings. No fluff. No salesy words. Sound like a real person.
 
-EMAIL STRUCTURE:
-Line 1: One direct sentence stating exactly what you are offering. No questions. No fluff.
-Line 2: One sentence saying what they need to do next.
-
-BANNED OPENERS — never start with these words or anything similar:
-- Want, Wanted, Would, Could, Are you, Do you, Have you, I noticed, I saw, I think, I believe, I came
-
-BANNED WORDS — never use these anywhere:
-- free, boost, optimize, leverage, effective, great, amazing, quick, simple, easy, powerful, seamlessly, irresistible, compelling
-
-SUBJECT LINE: Maximum 4 words. Plain. No punctuation.
-
-Output only raw JSON, absolutely nothing else before or after:
+Return only this JSON:
 {"emails":[{"subject":"subject here","body":"email body here"},{"subject":"subject here","body":"email body here"}]}`
             },
             {
