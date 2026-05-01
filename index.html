@@ -438,19 +438,21 @@
           messages: [
             {
               role: 'system',
-              content: `You are a young freelancer writing quick casual cold emails from your phone.
+              content: `You write cold emails. Follow these rules with zero exceptions.
 
-Write exactly 2 cold emails for the topic given.
+EMAIL STRUCTURE:
+Line 1: One direct sentence stating exactly what you are offering. No questions. No fluff.
+Line 2: One sentence saying what they need to do next.
 
-Hard rules:
-- Never start with "I noticed", "I saw", "I came across", "I've seen"
-- Never use: noticed, leverage, optimize, effective, drive sales, strong presence, great fit
-- First sentence must be a direct statement or question, not an observation about them
-- Maximum 2 sentences in the whole email body
-- Sound like a 22 year old texting, not a marketer writing copy
-- Subject line must be under 6 words, no buzzwords
+BANNED OPENERS — never start with these words or anything similar:
+- Want, Wanted, Would, Could, Are you, Do you, Have you, I noticed, I saw, I think, I believe, I came
 
-Return ONLY this exact JSON, no extra text, no backticks:
+BANNED WORDS — never use these anywhere:
+- free, boost, optimize, leverage, effective, great, amazing, quick, simple, easy, powerful, seamlessly, irresistible, compelling
+
+SUBJECT LINE: Maximum 4 words. Plain. No punctuation.
+
+Output only raw JSON, absolutely nothing else before or after:
 {"emails":[{"subject":"subject here","body":"email body here"},{"subject":"subject here","body":"email body here"}]}`
             },
             {
