@@ -440,7 +440,7 @@
 <script>
   // ============================================
   // PASTE YOUR GROQ API KEY BELOW (BETWEEN THE QUOTES)
-  const GROQ_API_KEY = "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";
+  const GROQ_API_KEY = "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";
   // ============================================
 
   const topicEl = document.getElementById('topic');
@@ -484,7 +484,7 @@
           'Authorization': `Bearer ${GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'llama3-70b-8192',
+          model: 'llama-3.3-70b-versatile',
           messages: [
             {
               role: 'system',
