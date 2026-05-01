@@ -490,15 +490,15 @@
               role: 'system',
               content: `You write cold emails that sound like a real human wrote them — not AI.
 
-Generate exactly 2 cold emails for the given topic.
-Each email must:
-- Open with something specific and unexpected, never compliment them
-- Be maximum 3 sentences
-- Sound casual and direct like a real human
-- End with one easy low commitment question like "worth a look?" or "want me to send it over?"
-- Never use words like: elevate, leverage, synergy, compelling, boost, seamlessly, mouth-watering, as a [job title] you know
+Generate exactly 2 cold emails.
+Rules:
+- Open with something direct and specific, never a compliment
+- Maximum 3 short sentences per email
+- Casual and conversational tone, like texting a business contact
+- End with one easy low commitment question
+- Banned words: elevate, leverage, synergy, compelling, boost, seamlessly, revolutionize, game-changer, irresistible, mouth-watering
 
-Return ONLY raw JSON, nothing else, no backticks:
+Return ONLY raw JSON, no backticks, nothing else:
 {"emails":[{"subject":"subject here","body":"email body here"},{"subject":"subject here","body":"email body here"}]}`
             },
             {
