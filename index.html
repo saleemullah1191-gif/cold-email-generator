@@ -30,7 +30,6 @@
     overflow-x: hidden;
   }
 
-  /* Ambient background */
   body::before {
     content: '';
     position: fixed;
@@ -64,7 +63,6 @@
     padding: 60px 20px 80px;
   }
 
-  /* Header */
   .header {
     text-align: center;
     margin-bottom: 48px;
@@ -87,10 +85,7 @@
     margin-bottom: 20px;
   }
 
-  .badge::before {
-    content: '✦';
-    font-size: 10px;
-  }
+  .badge::before { content: '✦'; font-size: 10px; }
 
   h1 {
     font-family: 'Syne', sans-serif;
@@ -117,7 +112,6 @@
     margin: 0 auto;
   }
 
-  /* Card */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -139,11 +133,7 @@
     margin-bottom: 12px;
   }
 
-  .label-icon {
-    width: 16px;
-    height: 16px;
-    opacity: 0.6;
-  }
+  .label-icon { width: 16px; height: 16px; opacity: 0.6; }
 
   textarea {
     width: 100%;
@@ -178,12 +168,8 @@
     flex-wrap: wrap;
   }
 
-  .hint {
-    font-size: 12px;
-    color: var(--muted);
-  }
+  .hint { font-size: 12px; color: var(--muted); }
 
-  /* Button */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -226,7 +212,6 @@
     color: var(--text);
   }
 
-  /* Error */
   .error-box {
     background: rgba(248,113,113,0.08);
     border: 1px solid rgba(248,113,113,0.2);
@@ -238,7 +223,6 @@
     animation: fadeUp 0.3s ease both;
   }
 
-  /* Results label */
   .results-label {
     display: flex;
     align-items: center;
@@ -259,7 +243,6 @@
     box-shadow: 0 0 8px var(--accent);
   }
 
-  /* Email card */
   .email-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -270,9 +253,7 @@
     transition: border-color 0.2s;
   }
 
-  .email-card:hover {
-    border-color: rgba(124,106,255,0.2);
-  }
+  .email-card:hover { border-color: rgba(124,106,255,0.2); }
 
   .email-header {
     display: flex;
@@ -325,10 +306,7 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  .copy-btn:hover {
-    background: rgba(255,255,255,0.08);
-    color: var(--text);
-  }
+  .copy-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 
   .copy-btn.copied {
     color: var(--success);
@@ -345,14 +323,8 @@
     padding-left: 40px;
   }
 
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 16px 0;
-  }
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
 
-  /* Empty state */
   .empty {
     text-align: center;
     padding: 48px 20px;
@@ -372,39 +344,18 @@
     font-size: 24px;
   }
 
-  .empty p {
-    color: var(--muted);
-    font-size: 14px;
-  }
+  .empty p { color: var(--muted); font-size: 14px; }
 
-  /* Spinner */
-  .spin {
-    animation: spin 0.8s linear infinite;
-    display: inline-block;
-  }
+  .spin { animation: spin 0.8s linear infinite; display: inline-block; }
 
-  /* Regen row */
-  .regen-row {
-    text-align: center;
-    padding-top: 8px;
-  }
+  .regen-row { text-align: center; padding-top: 8px; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Footer */
-  .footer {
-    text-align: center;
-    margin-top: 48px;
-    color: var(--muted);
-    font-size: 12px;
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -432,14 +383,13 @@
   </div>
 
   <div id="errorBox" class="error-box" style="display:none;"></div>
-
   <div id="results"></div>
 
 </div>
 
 <script>
   // ============================================
-  // PASTE YOUR GROQ API KEY BELOW (BETWEEN THE QUOTES)
+  // PASTE YOUR NEW GROQ API KEY BELOW
   const GROQ_API_KEY = "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";
   // ============================================
 
@@ -523,11 +473,14 @@ Return ONLY this exact JSON, no extra text, no backticks:
       if (!content) throw new Error('No response from AI');
 
       let parsed;
-      try {
-        let clean = content.trim();
-        const jsonMatch = clean.match(/\{[\s\S]*\}/);
+      const jsonMatch = content.trim().match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error('Could not read AI response. Try again.');
+
+      try {
         parsed = JSON.parse(jsonMatch[0]);
+      } catch {
+        throw new Error('Could not read AI response. Try again.');
+      }
 
       const emails = parsed.emails;
       if (!emails || emails.length === 0) throw new Error('No emails generated. Try again.');
@@ -603,7 +556,6 @@ Return ONLY this exact JSON, no extra text, no backticks:
     return str.replace(/`/g, "'").replace(/\\/g, '\\\\').replace(/\n/g, '\\n');
   }
 
-  // Show empty state initially
   resultsEl.innerHTML = `
     <div class="empty">
       <div class="empty-icon">✉</div>
@@ -613,3 +565,4 @@ Return ONLY this exact JSON, no extra text, no backticks:
 </script>
 </body>
 </html>
+   
