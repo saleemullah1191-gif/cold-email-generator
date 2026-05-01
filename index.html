@@ -524,11 +524,10 @@ Return ONLY this exact JSON, no extra text, no backticks:
 
       let parsed;
       try {
-        const clean = content.replace(/```json|```/g, '').trim();
-        parsed = JSON.parse(clean);
-      } catch {
-        throw new Error('Could not read AI response. Try again.');
-      }
+        let clean = content.trim();
+        const jsonMatch = clean.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('Could not read AI response. Try again.');
+        parsed = JSON.parse(jsonMatch[0]);
 
       const emails = parsed.emails;
       if (!emails || emails.length === 0) throw new Error('No emails generated. Try again.');
