@@ -4,20 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cold Email Writer — AI Powered</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #18181f;
-    --border: rgba(255,255,255,0.07);
-    --accent: #7c6aff;
-    --accent2: #a78bfa;
-    --text: #f0eeff;
-    --muted: #6b6a80;
-    --muted2: #9998b0;
-    --success: #4ade80;
-    --error: #f87171;
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --surface2: #161624;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --accent: #6f57ff;
+    --accent-light: #9b8aff;
+    --text: #eeeeff;
+    --muted: #5a5970;
+    --muted2: #8f8ea8;
+    --green: #3dd68c;
+    --red: #ff6b6b;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,7 +26,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Instrument Sans', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -33,12 +34,11 @@
   body::before {
     content: '';
     position: fixed;
-    top: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 600px;
-    background: radial-gradient(ellipse, rgba(124,106,255,0.08) 0%, transparent 70%);
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(111,87,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(111,87,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
     pointer-events: none;
     z-index: 0;
   }
@@ -46,125 +46,136 @@
   body::after {
     content: '';
     position: fixed;
-    bottom: -100px;
-    right: -100px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(ellipse, rgba(167,139,250,0.05) 0%, transparent 70%);
+    top: -300px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 700px;
+    background: radial-gradient(ellipse, rgba(111,87,255,0.07) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
   }
 
-  .wrapper {
+  .page {
     position: relative;
     z-index: 1;
-    max-width: 680px;
+    max-width: 660px;
     margin: 0 auto;
-    padding: 60px 20px 80px;
+    padding: 64px 20px 100px;
   }
 
   .header {
-    text-align: center;
-    margin-bottom: 48px;
-    animation: fadeUp 0.6s ease both;
+    margin-bottom: 52px;
+    animation: rise 0.7s cubic-bezier(0.16,1,0.3,1) both;
   }
 
-  .badge {
+  .tag {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
+    gap: 7px;
+    padding: 4px 12px 4px 8px;
     border-radius: 100px;
-    background: rgba(124,106,255,0.1);
-    border: 1px solid rgba(124,106,255,0.2);
-    font-size: 12px;
+    background: rgba(111,87,255,0.08);
+    border: 1px solid rgba(111,87,255,0.18);
+    font-size: 11px;
     font-weight: 500;
-    color: var(--accent2);
-    letter-spacing: 0.05em;
+    color: var(--accent-light);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
-  .badge::before { content: '✦'; font-size: 10px; }
+  .tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 
   h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(36px, 7vw, 52px);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(42px, 8vw, 64px);
     font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 16px;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 18px;
   }
 
-  h1 span {
-    background: linear-gradient(135deg, #7c6aff, #c4b5fd);
+  .h1-dim { color: var(--muted2); }
+
+  .h1-bright {
+    background: linear-gradient(120deg, #fff 30%, var(--accent-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .subtitle {
+  .sub {
     color: var(--muted2);
-    font-size: 16px;
-    line-height: 1.6;
-    font-weight: 300;
-    max-width: 420px;
-    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.65;
+    font-weight: 400;
+    max-width: 400px;
   }
 
   .card {
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    margin-bottom: 16px;
-    animation: fadeUp 0.6s ease 0.1s both;
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 14px;
+    animation: rise 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
   }
 
-  .label {
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted2);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 12px;
+    gap: 6px;
   }
-
-  .label-icon { width: 16px; height: 16px; opacity: 0.6; }
 
   textarea {
     width: 100%;
-    min-height: 110px;
+    min-height: 108px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
+    border-radius: 10px;
+    padding: 13px 15px;
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.6;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.65;
     resize: vertical;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   textarea::placeholder { color: var(--muted); }
 
   textarea:focus {
-    border-color: rgba(124,106,255,0.4);
-    box-shadow: 0 0 0 3px rgba(124,106,255,0.08);
+    border-color: rgba(111,87,255,0.35);
+    box-shadow: 0 0 0 3px rgba(111,87,255,0.07);
   }
 
-  .card-footer {
+  .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 16px;
-    gap: 12px;
+    margin-top: 14px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
@@ -173,115 +184,114 @@
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Instrument Sans', sans-serif;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     border: none;
-    transition: all 0.2s;
+    transition: all 0.18s;
+    white-space: nowrap;
   }
 
-  .btn-primary {
-    background: linear-gradient(135deg, #7c6aff, #9d8bff);
-    color: white;
-    box-shadow: 0 4px 20px rgba(124,106,255,0.3);
+  .btn-main {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(111,87,255,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
   }
 
-  .btn-primary:hover:not(:disabled) {
+  .btn-main:hover:not(:disabled) {
+    background: #7d6bff;
     transform: translateY(-1px);
-    box-shadow: 0 6px 25px rgba(124,106,255,0.4);
+    box-shadow: 0 6px 24px rgba(111,87,255,0.45);
   }
 
-  .btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
+  .btn-main:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-  .btn-ghost {
+  .btn-soft {
     background: rgba(255,255,255,0.04);
     color: var(--muted2);
     border: 1px solid var(--border);
   }
 
-  .btn-ghost:hover {
+  .btn-soft:hover {
     background: rgba(255,255,255,0.07);
     color: var(--text);
+    border-color: var(--border2);
   }
 
-  .error-box {
-    background: rgba(248,113,113,0.08);
-    border: 1px solid rgba(248,113,113,0.2);
-    border-radius: 12px;
-    padding: 14px 18px;
-    color: var(--error);
-    font-size: 14px;
-    margin-bottom: 16px;
-    animation: fadeUp 0.3s ease both;
+  .err {
+    background: rgba(255,107,107,0.07);
+    border: 1px solid rgba(255,107,107,0.18);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--red);
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+    animation: rise 0.3s ease both;
   }
 
-  .results-label {
+  .results-bar {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted2);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
   }
 
-  .results-dot {
+  .live-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
+    background: var(--green);
+    box-shadow: 0 0 7px var(--green);
   }
 
   .email-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px 28px;
-    margin-bottom: 14px;
-    animation: fadeUp 0.5s ease both;
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 12px;
     transition: border-color 0.2s;
+    animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) both;
   }
 
-  .email-card:hover { border-color: rgba(124,106,255,0.2); }
+  .email-card:hover { border-color: rgba(111,87,255,0.18); }
 
-  .email-header {
+  .email-top {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
-  .email-num {
+  .num {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: rgba(111,87,255,0.1);
+    color: var(--accent-light);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: rgba(124,106,255,0.1);
-    color: var(--accent2);
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    flex-shrink: 0;
     margin-top: 2px;
+    flex-shrink: 0;
   }
 
-  .email-subject {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
+  .subject {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text);
     line-height: 1.3;
@@ -292,267 +302,256 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 5px 11px;
+    border-radius: 7px;
     background: rgba(255,255,255,0.04);
     border: 1px solid var(--border);
     color: var(--muted2);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.18s;
     white-space: nowrap;
     flex-shrink: 0;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Instrument Sans', sans-serif;
   }
 
-  .copy-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+  .copy-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); border-color: var(--border2); }
 
-  .copy-btn.copied {
-    color: var(--success);
-    border-color: rgba(74,222,128,0.2);
-    background: rgba(74,222,128,0.06);
+  .copy-btn.ok {
+    color: var(--green);
+    border-color: rgba(61,214,140,0.2);
+    background: rgba(61,214,140,0.05);
   }
 
-  .email-body {
-    color: #b8b7cc;
-    font-size: 14px;
-    line-height: 1.8;
-    font-weight: 300;
+  .sep { height: 1px; background: var(--border); margin: 0 0 14px; }
+
+  .body-text {
+    color: #aaaac0;
+    font-size: 13.5px;
+    line-height: 1.75;
+    font-weight: 400;
     white-space: pre-line;
-    padding-left: 40px;
+    padding-left: 38px;
   }
 
-  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .regen { text-align: center; padding-top: 6px; margin-bottom: 6px; }
 
   .empty {
     text-align: center;
-    padding: 48px 20px;
-    animation: fadeUp 0.6s ease 0.2s both;
+    padding: 52px 20px;
+    animation: rise 0.6s ease 0.15s both;
   }
 
   .empty-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border2);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 24px;
+    margin: 0 auto 14px;
+    font-size: 22px;
   }
 
-  .empty p { color: var(--muted); font-size: 14px; }
+  .empty p { color: var(--muted); font-size: 13px; }
 
-  .spin { animation: spin 0.8s linear infinite; display: inline-block; }
+  .spin { display: inline-block; animation: spinning 0.7s linear infinite; }
+  @keyframes spinning { to { transform: rotate(360deg); } }
 
-  .regen-row { text-align: center; padding-top: 8px; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="page">
 
   <div class="header">
-    <div class="badge">AI Powered Tool</div>
-    <h1>Cold Email<br><span>Writer</span></h1>
-    <p class="subtitle">Describe your outreach goal. Get two human-sounding cold emails, ready to send.</p>
+    <div class="tag"><span class="tag-dot"></span> AI Powered</div>
+    <h1>
+      <span class="h1-dim">Cold</span><br>
+      <span class="h1-bright">Email Writer</span>
+    </h1>
+    <p class="sub">Describe your outreach goal. Get two ready-to-send cold emails that sound like a real person wrote them.</p>
   </div>
 
   <div class="card">
-    <div class="label">
-      <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    <div class="field-label">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       What's the email about?
     </div>
-    <textarea id="topic" placeholder="e.g. Reaching out to small bakery owners about my social media management service that gets them 3x more orders"></textarea>
-    <div class="card-footer">
+    <textarea id="topic" placeholder="e.g. Reaching out to barbers to offer a free AI written Instagram bio that gets more bookings"></textarea>
+    <div class="row">
       <span class="hint">Ctrl + Enter to generate</span>
-      <button class="btn btn-primary" id="generateBtn" onclick="generateEmails()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <button class="btn btn-main" id="genBtn" onclick="generate()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         Generate Emails
       </button>
     </div>
   </div>
 
-  <div id="errorBox" class="error-box" style="display:none;"></div>
-  <div id="results"></div>
+  <div id="err" class="err"></div>
+  <div id="out"></div>
 
 </div>
-
 <script>
-  // ============================================
-  // PASTE YOUR NEW GROQ API KEY BELOW
-  const GROQ_API_KEY = "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";
-  // ============================================
+  // ── PUT YOUR GROQ API KEY HERE ──
+  const KEY = "gsk_7WW40sjprQXWT3iNVDdkWGdyb3FYtwDJtPLzsBFhTFZqtSGi8Z7zE";
+  // ────────────────────────────────
+
+  const GROQ = "https://api.groq.com/openai/v1/chat/completions";
+
+  // These proxies fix the "Failed to fetch" error on GitHub Pages
+  const PROXIES = [
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  ];
 
   const topicEl = document.getElementById('topic');
-  const generateBtn = document.getElementById('generateBtn');
-  const errorBox = document.getElementById('errorBox');
-  const resultsEl = document.getElementById('results');
+  const genBtn  = document.getElementById('genBtn');
+  const errEl   = document.getElementById('err');
+  const outEl   = document.getElementById('out');
 
-  topicEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateEmails();
+  topicEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generate();
   });
 
-  function showError(msg) {
-    errorBox.textContent = msg;
-    errorBox.style.display = 'block';
-  }
+  function showErr(m) { errEl.textContent = m; errEl.style.display = 'block'; }
+  function hideErr()  { errEl.style.display = 'none'; }
 
-  function hideError() {
-    errorBox.style.display = 'none';
-  }
-
-  function setLoading(val) {
-    generateBtn.disabled = val;
-    generateBtn.innerHTML = val
+  function setLoading(on) {
+    genBtn.disabled = on;
+    genBtn.innerHTML = on
       ? `<span class="spin">↻</span> Generating...`
-      : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Generate Emails`;
+      : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Generate Emails`;
   }
 
-  async function generateEmails() {
+  function payload(topic) {
+    return JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      max_tokens: 600,
+      temperature: 0.85,
+      messages: [
+        {
+          role: "system",
+          content: `Write 2 cold emails. Each has a subject and a 2 sentence body. First sentence states the offer. Second sentence is the call to action. No greetings. No links. No salesy words. Sound like a real person.\n\nReturn only JSON:\n{"emails":[{"subject":"","body":""},{"subject":"","body":""}]}`
+        },
+        { role: "user", content: `Write cold emails for: ${topic}` }
+      ]
+    });
+  }
+
+  async function callAPI(topic) {
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${KEY}`
+    };
+    const body = payload(topic);
+
+    // Try direct call first
+    try {
+      const r = await fetch(GROQ, { method: "POST", headers, body });
+      if (r.ok) return await r.json();
+    } catch (_) {}
+
+    // Try each CORS proxy
+    for (const proxy of PROXIES) {
+      try {
+        const r = await fetch(proxy(GROQ), { method: "POST", headers, body });
+        if (r.ok) return await r.json();
+      } catch (_) {}
+    }
+
+    throw new Error("Cannot reach AI. Check your internet and try again.");
+  }
+
+  async function generate() {
     const topic = topicEl.value.trim();
     if (!topic) return;
 
-    hideError();
+    hideErr();
     setLoading(true);
-    resultsEl.innerHTML = '';
+    outEl.innerHTML = '';
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
-          messages: [
-            {
-              role: 'system',
-              content: `Write exactly 2 cold emails, no more no less. Each email has a subject line and a body. The body is exactly 2 sentences. First sentence states the offer directly. Second sentence tells them what to do next. No greetings. No fluff. No salesy words. Sound like a real person.
+      const data = await callAPI(topic);
 
-Return only this JSON:
-{"emails":[{"subject":"subject here","body":"email body here"},{"subject":"subject here","body":"email body here"}]}`
-            },
-            {
-              role: 'user',
-              content: `Write cold emails for: ${topic}`
-            }
-          ],
-          temperature: 0.8,
-          max_tokens: 800
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || 'API error. Check your API key.');
-      }
+      if (data.error) throw new Error(data.error.message || "API error. Check your API key.");
 
       const content = data.choices?.[0]?.message?.content;
-      if (!content) throw new Error('No response from AI');
+      if (!content) throw new Error("No response. Try again.");
+
+      const match = content.trim().match(/\{[\s\S]*\}/);
+      if (!match) throw new Error("Could not read response. Try again.");
 
       let parsed;
-      const jsonMatch = content.trim().match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error('Could not read AI response. Try again.');
-
-      try {
-        parsed = JSON.parse(jsonMatch[0]);
-      } catch {
-        throw new Error('Could not read AI response. Try again.');
-      }
+      try { parsed = JSON.parse(match[0]); }
+      catch { throw new Error("Could not read response. Try again."); }
 
       const emails = parsed.emails;
-      if (!emails || emails.length === 0) throw new Error('No emails generated. Try again.');
+      if (!emails?.length) throw new Error("No emails generated. Try again.");
 
-      renderEmails(emails);
+      render(emails);
 
-    } catch (err) {
-      showError(err.message || 'Something went wrong. Try again.');
+    } catch(e) {
+      showErr(e.message || "Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
   }
 
-  function renderEmails(emails) {
-    let html = `
-      <div class="results-label">
-        <div class="results-dot"></div>
-        ${emails.length} emails generated
-      </div>
-    `;
+  function render(emails) {
+    let h = `<div class="results-bar"><div class="live-dot"></div>${emails.length} emails generated</div>`;
 
-    emails.forEach((email, i) => {
-      html += `
-        <div class="email-card" style="animation-delay:${i * 120}ms">
-          <div class="email-header">
-            <div class="email-num">${i + 1}</div>
-            <div class="email-subject">${escapeHtml(email.subject)}</div>
-            <button class="copy-btn" id="copy-${i}" onclick="copyEmail(${i}, \`${escapeTick(email.subject)}\`, \`${escapeTick(email.body)}\`)">
-              ⎘ Copy
-            </button>
+    emails.forEach((e, i) => {
+      h += `
+        <div class="email-card" style="animation-delay:${i*100}ms">
+          <div class="email-top">
+            <div class="num">${i+1}</div>
+            <div class="subject">${esc(e.subject)}</div>
+            <button class="copy-btn" id="cp${i}" onclick="doCopy(${i},\`${tick(e.subject)}\`,\`${tick(e.body)}\`)">⎘ Copy</button>
           </div>
-          <div class="divider"></div>
-          <div class="email-body">${escapeHtml(email.body)}</div>
-        </div>
-      `;
+          <div class="sep"></div>
+          <div class="body-text">${esc(e.body)}</div>
+        </div>`;
     });
 
-    html += `
-      <div class="regen-row">
-        <button class="btn btn-ghost" onclick="generateEmails()">
-          ↻ &nbsp;Regenerate
-        </button>
-      </div>
-    `;
-
-    resultsEl.innerHTML = html;
+    h += `<div class="regen"><button class="btn btn-soft" onclick="generate()">↻ &nbsp;Regenerate</button></div>`;
+    outEl.innerHTML = h;
   }
 
-  function copyEmail(index, subject, body) {
-    const text = `Subject: ${subject}\n\n${body}`;
-    navigator.clipboard.writeText(text).catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
+  function doCopy(i, subj, body) {
+    const txt = `Subject: ${subj}\n\n${body}`;
+    navigator.clipboard.writeText(txt).catch(() => {
+      const t = document.createElement('textarea');
+      t.value = txt; document.body.appendChild(t);
+      t.select(); document.execCommand('copy');
+      document.body.removeChild(t);
     });
-    const btn = document.getElementById(`copy-${index}`);
-    btn.textContent = '✓ Copied';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '⎘ Copy';
-      btn.classList.remove('copied');
-    }, 2000);
+    const b = document.getElementById(`cp${i}`);
+    b.textContent = '✓ Copied';
+    b.classList.add('ok');
+    setTimeout(() => { b.textContent = '⎘ Copy'; b.classList.remove('ok'); }, 2000);
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function esc(s='') {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function tick(s='') {
+    return s.replace(/`/g,"'").replace(/\\/g,'\\\\').replace(/\n/g,'\\n');
   }
 
-  function escapeTick(str) {
-    return str.replace(/`/g, "'").replace(/\\/g, '\\\\').replace(/\n/g, '\\n');
-  }
-
-  resultsEl.innerHTML = `
+  outEl.innerHTML = `
     <div class="empty">
       <div class="empty-icon">✉</div>
       <p>Your generated emails will appear here</p>
-    </div>
-  `;
+    </div>`;
 </script>
 </body>
 </html>
-   
+ 
+    
